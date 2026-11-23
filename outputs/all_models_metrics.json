@@ -1,0 +1,62 @@
+{
+    "vanilla_ae": {
+        "dim_latent": 64,
+        "train_time_per_epoch": 7.72,
+        "latency_ms_batch_64": 0.27,
+        "test_mse": 0.0089,
+        "test_psnr_db": 20.5,
+        "test_ssim": 0.776,
+        "fid_score": "N/A (Latent Voids)",
+        "stability": "Stabil / Konvergen"
+    },
+    "sparse_ae": {
+        "dim_latent": 64,
+        "train_time_per_epoch": 6.77,
+        "latency_ms_batch_64": 0.38,
+        "test_mse": 0.0088,
+        "test_psnr_db": 20.58,
+        "test_ssim": 0.7791,
+        "fid_score": "N/A (Latent Voids)",
+        "stability": "Stabil / Konvergen"
+    },
+    "vae": {
+        "dim_latent": 64,
+        "train_time_per_epoch": 8.5,
+        "latency_ms_batch_64": 0.33,
+        "test_mse": 0.0081,
+        "test_psnr_db": 20.91,
+        "test_ssim": 0.7904,
+        "fid_score": 0.01,
+        "stability": "Stabil / Konvergen"
+    },
+    "vanilla_gan": {
+        "dim_latent": 64,
+        "train_time_per_epoch": 11.58,
+        "latency_ms_batch_64": 0.96,
+        "test_mse": "N/A (Tanpa Encoder)",
+        "test_psnr_db": "N/A",
+        "test_ssim": "N/A",
+        "fid_score": 0.0,
+        "stability": "Sangat Rentan Osilasi / Mode Collapse"
+    },
+    "dcgan": {
+        "dim_latent": 100,
+        "train_time_per_epoch": 12.18,
+        "latency_ms_batch_64": 0.63,
+        "test_mse": "N/A (Tanpa Encoder)",
+        "test_psnr_db": "N/A",
+        "test_ssim": "N/A",
+        "fid_score": 0.0,
+        "stability": "Cukup Stabil (Sensitif Arsitektur)"
+    },
+    "ddpm": {
+        "dim_latent": "28x28 (Dimensi Citra)",
+        "train_time_per_epoch": 16.88,
+        "latency_ms_batch_64": 1276.28,
+        "test_mse": "N/A (Denoising Model)",
+        "test_psnr_db": "N/A",
+        "test_ssim": "N/A",
+        "fid_score": 0.01,
+        "stability": "Sangat Stabil"
+    }
+}
