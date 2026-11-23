@@ -9,4 +9,5 @@ data/
 checkpoints/*.pt
 checkpoints/*.pth
 !checkpoints/.gitkeep
+outputs/*.pt
 .ipynb_checkpoints/
