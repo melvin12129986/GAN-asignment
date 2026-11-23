@@ -99,16 +99,18 @@ python main.py --mode figures
 
 ## 3. Hasil Pengujian Kuantitatif (Template Tabel Metrik Bagian IV)
 
-Seluruh metrik dievaluasi pada **Test Set (7.000 citra)** yang belum pernah dilihat oleh model saat pelatihan:
+MSE, PSNR, dan SSIM dievaluasi pada **Test Set (7.000 citra)** yang belum pernah dilihat oleh model saat pelatihan. FID memakai fitur pool3 2048-dimensi dari InceptionV3 pretrained ImageNet dan membandingkan 2.048 citra real dari test set dengan 2.048 sampel sintetis per model. Fashion-MNIST grayscale diubah menjadi tiga channel, di-resize ke 299x299, dan dinormalisasi dengan statistik ImageNet. Karena dataset dan preprocessing berbeda dari protokol FID benchmark umum, angka FID ini hanya layak dibandingkan di antara model pada eksperimen ini, bukan langsung dengan skor FID publikasi lain.
+
+FID tidak dilaporkan untuk Vanilla dan Sparse Autoencoder: keduanya tidak memiliki prior laten generatif yang terdefinisi; mengukur rekonstruksi sebagai sampel generatif akan menjawab pertanyaan berbeda. Nilai untuk VAE, GAN, DCGAN, dan DDPM dihasilkan ulang dari checkpoint lewat `python -m src.reevaluate_fid`.
 
 | Arsitektur Model | Dim Laten | Training Time / Epoch (s) | Latency (ms / batch 64) | Test MSE | Test PSNR (dB) | Test SSIM | FID Score | Kestabilan Training |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Vanilla Autoencoder** | 64 | 7.72 s | 0.27 ms | **0.0089** | **20.50 dB** | **0.7760** | N/A (Latent Voids) | Stabil / Konvergen |
-| **Sparse Autoencoder** | 64 | 6.77 s | 0.38 ms | **0.0088** | **20.58 dB** | **0.7791** | N/A (Latent Voids) | Stabil / Konvergen |
-| **Variational Autoencoder (VAE)** | 64 | 8.50 s | 0.33 ms | **0.0081** | **20.91 dB** | **0.7904** | 0.01 | Stabil / Konvergen |
-| **Generative Adversarial Network (GAN)** | 64 (Prior Noise) | 11.58 s | 0.96 ms | N/A (Tanpa Encoder) | N/A | N/A | 0.00 | Sangat Rentan Osilasi / Mode Collapse |
-| **Deep Convolutional GAN (DCGAN)** | 100 (Prior Noise) | 12.18 s | 0.63 ms | N/A (Tanpa Encoder) | N/A | N/A | 0.00 | Cukup Stabil (Sensitif Arsitektur) |
-| **Denoising Diffusion (DDPM)** | 28x28 (Citra) | 16.88 s | 1276.28 ms | N/A (Denoising Model) | N/A | N/A | 0.01 | Sangat Stabil |
+| **Vanilla Autoencoder** | 64 | 7.72 s | 0.27 ms | **0.0089** | **20.50 dB** | **0.7760** | N/A (tanpa prior generatif) | Stabil / Konvergen |
+| **Sparse Autoencoder** | 64 | 6.77 s | 0.38 ms | **0.0088** | **20.58 dB** | **0.7791** | N/A (tanpa prior generatif) | Stabil / Konvergen |
+| **Variational Autoencoder (VAE)** | 64 | 8.50 s | 0.33 ms | **0.0081** | **20.91 dB** | **0.7904** | 167.93 | Stabil / Konvergen |
+| **Generative Adversarial Network (GAN)** | 64 (Prior Noise) | 11.58 s | 0.96 ms | N/A (Tanpa Encoder) | N/A | N/A | 145.61 | Sangat Rentan Osilasi / Mode Collapse |
+| **Deep Convolutional GAN (DCGAN)** | 100 (Prior Noise) | 12.18 s | 0.63 ms | N/A (Tanpa Encoder) | N/A | N/A | 55.53 | Cukup Stabil (Sensitif Arsitektur) |
+| **Denoising Diffusion (DDPM)** | 28x28 (Citra) | 16.88 s | 1276.28 ms | N/A (Denoising Model) | N/A | N/A | 65.03 | Sangat Stabil |
 
 ---
 

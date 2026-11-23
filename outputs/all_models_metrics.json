@@ -26,7 +26,7 @@
         "test_mse": 0.0081,
         "test_psnr_db": 20.91,
         "test_ssim": 0.7904,
-        "fid_score": 0.01,
+        "fid_score": 167.93,
         "stability": "Stabil / Konvergen"
     },
     "vanilla_gan": {
@@ -36,7 +36,7 @@
         "test_mse": "N/A (Tanpa Encoder)",
         "test_psnr_db": "N/A",
         "test_ssim": "N/A",
-        "fid_score": 0.0,
+        "fid_score": 145.61,
         "stability": "Sangat Rentan Osilasi / Mode Collapse"
     },
     "dcgan": {
@@ -46,7 +46,7 @@
         "test_mse": "N/A (Tanpa Encoder)",
         "test_psnr_db": "N/A",
         "test_ssim": "N/A",
-        "fid_score": 0.0,
+        "fid_score": 55.53,
         "stability": "Cukup Stabil (Sensitif Arsitektur)"
     },
     "ddpm": {
@@ -56,7 +56,7 @@
         "test_mse": "N/A (Denoising Model)",
         "test_psnr_db": "N/A",
         "test_ssim": "N/A",
-        "fid_score": 0.01,
+        "fid_score": 65.03,
         "stability": "Sangat Stabil"
     }
 }

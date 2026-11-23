@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,6 +27,8 @@ def generate_all_figures(output_dir="./outputs/figures", device="cuda" if torch.
     eval_assets = torch.load("./outputs/evaluation_samples.pt", map_location="cpu")
     mlp_res = torch.load("./outputs/mlp_experiments_results.pt", map_location="cpu")
     training_curves = torch.load("./outputs/training_curves.pt", map_location="cpu")
+    with open("./outputs/all_models_metrics.json", "r") as f:
+        metrics = json.load(f)
     
     # -------------------------------------------------------------------------
     # FIGUR 1: Grid Rekonstruksi Side-by-Side
@@ -81,16 +84,22 @@ def generate_all_figures(output_dir="./outputs/figures", device="cuda" if torch.
     fig, axes = plt.subplots(1, 4, figsize=(16, 4.5), dpi=300)
     
     models_gen = [
-        ("Panel A: VAE (Prior z ~ N(0,I))", eval_assets["rand_vae"][:16].cpu()),
-        ("Panel B: Vanilla GAN (MLP)", eval_assets["rand_vgan"][:16].cpu()),
-        ("Panel C: DCGAN (Conv)", eval_assets["rand_dcgan"][:16].cpu()),
-        ("Panel D: DDPM (Diffusion x_T->x_0)", eval_assets["rand_ddpm"][:16].cpu())
+        ("vae", "Panel A: VAE (Prior z ~ N(0,I))", eval_assets["rand_vae"][:16].cpu()),
+        ("vanilla_gan", "Panel B: Vanilla GAN (MLP)", eval_assets["rand_vgan"][:16].cpu()),
+        ("dcgan", "Panel C: DCGAN (Conv)", eval_assets["rand_dcgan"][:16].cpu()),
+        ("ddpm", "Panel D: DDPM (Diffusion x_T->x_0)", eval_assets["rand_ddpm"][:16].cpu())
     ]
     
-    for i, (title, samples) in enumerate(models_gen):
+    for i, (model_key, title, samples) in enumerate(models_gen):
         grid = make_grid(samples, nrow=4, padding=2, normalize=False)
         axes[i].imshow(grid[0].numpy(), cmap="gray", vmin=0, vmax=1)
-        axes[i].set_title(title, fontsize=10, fontweight="bold", pad=8)
+        fid_score = metrics[model_key]["fid_score"]
+        fid_label = (
+            f"FID: {fid_score:.2f}"
+            if isinstance(fid_score, (int, float))
+            else f"FID: {fid_score}"
+        )
+        axes[i].set_title(f"{title}\n{fid_label}", fontsize=10, fontweight="bold", pad=8)
         axes[i].axis("off")
         
     plt.suptitle("Figur 2: Sintesis Citra Generatif Acak (Grid 4x4) Antarmodel Generatif pada Fashion-MNIST",

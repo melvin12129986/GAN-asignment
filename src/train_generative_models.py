@@ -513,11 +513,20 @@ def train_all_models(
     # Reverse diffusion sampling untuk evaluasi & Figur 5 trajectory
     print("\n[DDPM Inference] Membangkitkan sampel sintetis dan lintasan denoising x_T -> x_0...")
     ddpm.eval()
-    fake_ddpm_samples, trajectory = ddpm.sample(shape=(64, 1, 28, 28), return_trajectory=True, stride=25)
+    fake_ddpm_samples, trajectory = ddpm.sample(
+        shape=(64, 1, 28, 28), return_trajectory=True, stride=25
+    )
+    fake_ddpm_batches = [fake_ddpm_samples]
+    for start in range(64, 2000, 64):
+        batch_size = min(64, 2000 - start)
+        fake_ddpm_batches.append(
+            ddpm.sample(shape=(batch_size, 1, 28, 28))
+        )
+    fake_ddpm_samples = torch.cat(fake_ddpm_batches, dim=0)
     
     # Evaluasi FID DDPM
-    fake_ddpm_features = fid_calc.get_features(fake_ddpm_samples, max_samples=64)
-    ddpm_fid = fid_calc.compute_fid(real_features[:64], fake_ddpm_features)
+    fake_ddpm_features = fid_calc.get_features(fake_ddpm_samples, max_samples=2000)
+    ddpm_fid = fid_calc.compute_fid(real_features, fake_ddpm_features)
     
     def gen_ddpm(b):
         with torch.no_grad():
