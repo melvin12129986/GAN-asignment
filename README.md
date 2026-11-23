@@ -2,6 +2,7 @@
 
 **Mata Kuliah:** Deep Learning (D6421) — Sesi 07 (Generative Models terintegrasi Sesi 06 Autoencoders)  
 **Tugas:** Take-Home Mandiri / Individu (Proyek Eksperimen Komparatif)  
+**Tautan Repositori GitHub:** [https://github.com/melvin12129986/GAN-asignment](https://github.com/melvin12129986/GAN-asignment)  
 **Dataset Benchmark:** Fashion-MNIST (70.000 citra, resolusi 28x28 grayscale, 10 kategori pakaian)  
 **Standardisasi Preprocessing:** Split 80% Train (56.000 citra), 10% Validation (7.000 citra), 10% Test (7.000 citra) dengan fixed random seed (`seed=42`).
 
